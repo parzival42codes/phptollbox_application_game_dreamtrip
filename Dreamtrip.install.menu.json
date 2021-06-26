@@ -1,0 +1,16 @@
+{
+  "type": "install.menu",
+  "content": {
+    "link": "index.php?application=ApplicationDreamtrip",
+    "menuClassMain": "ApplicationDreamtrip",
+    "menuIcon": "",
+    "language": {
+      "de_DE": {
+        "menuTitle": "1|Dreamtrip",
+        "menuDescription": "",
+        "menuPath": "/Dreamtrip",
+        "menuAccess": "ApplicationDreamtrip"
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+    "type": "install.language",
+    "content": {
+        "/meta/title": {
+            "de_DE": "Dreamtrip",
+            "en_US": "Dreamtrip"
+        },
+        "/meta/description": {
+            "de_DE": "Dreamtrip",
+            "en_US": "Dreamtrip"
+        },
+        "/breadcrumb": {
+            "de_DE": "Dreamtrip",
+            "en_US": "Dreamtrip"
+        }
+    }
+}

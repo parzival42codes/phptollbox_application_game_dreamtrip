@@ -1,0 +1,17 @@
+{
+    "type": "install.language",
+    "content": {
+        "/meta/title": {
+            "de_DE": "DreamtripWay",
+            "en_US": "DreamtripWay"
+        },
+        "/meta/description": {
+            "de_DE": "DreamtripWay",
+            "en_US": "DreamtripWay"
+        },
+        "/breadcrumb": {
+            "de_DE": "DreamtripWay",
+            "en_US": "DreamtripWay"
+        }
+    }
+}

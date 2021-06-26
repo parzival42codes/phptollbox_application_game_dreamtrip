@@ -1,0 +1,25 @@
+{
+  "path": "/start",
+  "_": {
+    "text": {
+      "de_DE": "Dreamtrip",
+      "en_US": "Dreamtrip"
+    },
+    "choices": {
+      "go": {
+        "duration": 120,
+        "language": {
+          "de_DE": "Dreamtrip",
+          "en_US": "Dreamtrip"
+        },
+        "action": [
+          {
+            "action": "",
+            "parameter": {
+            }
+          }
+        ]
+      }
+    }
+  }
+}

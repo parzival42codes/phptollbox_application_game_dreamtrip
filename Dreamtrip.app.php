@@ -15,6 +15,8 @@
 class ApplicationDreamtrip_app extends Application_abstract
 {
 
+    protected array $jsonData = [];
+
     public function setContent(): string
     {
         $this->pageData();
@@ -22,7 +24,7 @@ class ApplicationDreamtrip_app extends Application_abstract
         /** @var ContainerExtensionTemplateLoad_cache_template $templateCache */
         $templateCache = Container::get('ContainerExtensionTemplateLoad_cache_template',
                                         Core::getRootClass(__CLASS__),
-                                        'default');
+                                        'default,choice.container');
 
         /** @var ContainerFactoryUser $user */
         $user = Container::getInstance('ContainerFactoryUser');
@@ -41,20 +43,21 @@ class ApplicationDreamtrip_app extends Application_abstract
         $crudCard->setCrudIdent($crudUser->getCrudCard());
         $crudCard->findById(true);
 
-        /** @var ApplicationDreamtrip $dreamTrip */
-        $dreamTrip = Container::get('ApplicationDreamtrip',
-                                    $crudCard->getCrudData());
-
-        $dreamTrip->getChoices();
+        $this->jsonData = json_decode($crudCard->getCrudData(),
+                                      true);
 
         /** @var ContainerExtensionTemplate $template */
         $template = Container::get('ContainerExtensionTemplate');
         $template->set($templateCache->getCacheContent()['default']);
 
+//        d($this->getChoices($templateCache));
+//        eol();
+
+        $template->assign('choices',
+                          $this->getChoices($templateCache));
+
         $template->parse();
         return $template->get();
-
-
     }
 
     public function pageData(): void
@@ -70,7 +73,6 @@ class ApplicationDreamtrip_app extends Application_abstract
         $router = Container::get('ContainerFactoryRouter');
         $router->analyzeUrl('index.php?application=' . $thisClassName . '');
 
-
         $breadcrumb = $page->getBreadcrumb();
 
         $breadcrumb->addBreadcrumbItem(ContainerFactoryLanguage::get('/' . $thisClassName . '/meta/title'),
@@ -81,5 +83,43 @@ class ApplicationDreamtrip_app extends Application_abstract
         $menu = $this->getMenu();
         $menu->setMenuClassMain($thisClassName);
 
+    }
+
+    protected function getChoices(ContainerExtensionTemplateLoad_cache_template $templateCache): string
+    {
+        d($this->jsonData['_']['choices']);
+
+        /** @var ContainerExtensionTemplate $template */
+        $template = Container::get('ContainerExtensionTemplate');
+        $template->set($templateCache->getCacheContent()['choice.container']);
+
+        $tableTcs = [];
+
+        foreach ($this->jsonData['_']['choices'] as $choiceKey => $choiceItem) {
+
+            foreach ($choiceItem['action'] as $action) {
+                d($action);
+            }
+
+            $message = ContainerFactoryLanguage::getLanguageText((string)Config::get('/environment/language'),
+                                                                 $choiceItem['language']);
+
+            $tableTcs[] = [
+                'path'     => $choiceKey,
+                'icon'     => '',
+                'if'       => '',
+                'action'   => '',
+                'message'  => $message,
+                'duration' => $choiceItem['duration'],
+            ];
+        }
+
+        d($tableTcs);
+
+        $template->assign('Table_Table',
+                          $tableTcs);
+
+        $template->parse();
+        return $template->get();
     }
 }

@@ -2,8 +2,14 @@
   "path": "/start",
   "_": {
     "text": {
-      "de_DE": "Dreamtrip",
-      "en_US": "Dreamtrip"
+      "title": {
+        "de_DE": "Dreamtrip",
+        "en_US": "Dreamtrip"
+      },
+      "content": {
+        "de_DE": "Dreamtrip",
+        "en_US": "Dreamtrip"
+      }
     },
     "choices": {
       "go": {

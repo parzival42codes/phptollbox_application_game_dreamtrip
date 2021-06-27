@@ -24,7 +24,7 @@ class ApplicationDreamtrip_app extends Application_abstract
         /** @var ContainerExtensionTemplateLoad_cache_template $templateCache */
         $templateCache = Container::get('ContainerExtensionTemplateLoad_cache_template',
                                         Core::getRootClass(__CLASS__),
-                                        'default,choice.container');
+                                        'default,choice.container,choice.action.container,choice.action.item');
 
         /** @var ContainerFactoryUser $user */
         $user = Container::getInstance('ContainerFactoryUser');
@@ -62,26 +62,22 @@ class ApplicationDreamtrip_app extends Application_abstract
 
     public function pageData(): void
     {
-        $thisClassName = Core::getRootClass(__CLASS__);
-
         /** @var ContainerIndexPage $page */
         $page = Container::getInstance('ContainerIndexPage');
-        $page->setPageTitle(ContainerFactoryLanguage::get('/' . $thisClassName . '/meta/title'));
-        $page->setPageDescription(ContainerFactoryLanguage::get('/' . $thisClassName . '/meta/description'));
+        $page->setPageTitle(ContainerFactoryLanguage::get('/' . $this->___getRootClass() . '/meta/title'));
+        $page->setPageDescription(ContainerFactoryLanguage::get('/' . $this->___getRootClass() . '/meta/description'));
 
         /** @var ContainerFactoryRouter $router */
         $router = Container::get('ContainerFactoryRouter');
-        $router->analyzeUrl('index.php?application=' . $thisClassName . '');
+        $router->analyzeUrl('index.php?application=' . $this->___getRootClass() . '');
 
         $breadcrumb = $page->getBreadcrumb();
 
-        $breadcrumb->addBreadcrumbItem(ContainerFactoryLanguage::get('/' . $thisClassName . '/meta/title'),
-                                       'index.php?application=ApplicationDreamtrip');
+        $breadcrumb->addBreadcrumbItem(ContainerFactoryLanguage::get('/' . $this->___getRootClass() . '/meta/title'),
+                                       'index.php?application=' . $this->___getRootClass());
 
-
-        /** @var ContainerFactoryMenu $menu */
         $menu = $this->getMenu();
-        $menu->setMenuClassMain($thisClassName);
+        $menu->setMenuClassMain($this->___getRootClass());
 
     }
 
@@ -97,9 +93,28 @@ class ApplicationDreamtrip_app extends Application_abstract
 
         foreach ($this->jsonData['_']['choices'] as $choiceKey => $choiceItem) {
 
+            d($choiceItem);
+
+            $templateContent = '';
+
             foreach ($choiceItem['action'] as $action) {
-                d($action);
+                /** @var ContainerExtensionTemplate $templateActionItem */
+                $templateActionItem = Container::get('ContainerExtensionTemplate');
+                $templateActionItem->set($templateCache->getCacheContent()['choice.action.item']);
+                $templateActionItem->assign('item',
+                                            $action['action'] . ' - ' . implode(',',
+                                                                                $action['parameter']));
+
+                $templateActionItem->parse();
+                $templateContent .= $templateActionItem->get();
             }
+
+            /** @var ContainerExtensionTemplate $templateActionContainer */
+            $templateActionContainer = Container::get('ContainerExtensionTemplate');
+            $templateActionContainer->set($templateCache->getCacheContent()['choice.action.container']);
+            $templateActionContainer->assign('content',
+                                             $templateContent);
+            $templateActionContainer->parse();
 
             $message = ContainerFactoryLanguage::getLanguageText((string)Config::get('/environment/language'),
                                                                  $choiceItem['language']);
@@ -108,13 +123,14 @@ class ApplicationDreamtrip_app extends Application_abstract
                 'path'     => $choiceKey,
                 'icon'     => '',
                 'if'       => '',
-                'action'   => '',
+                'action'   => $templateActionContainer->get(),
                 'message'  => $message,
                 'duration' => $choiceItem['duration'],
             ];
         }
 
         d($tableTcs);
+        eol();
 
         $template->assign('Table_Table',
                           $tableTcs);

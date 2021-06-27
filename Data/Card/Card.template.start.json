@@ -20,8 +20,9 @@
         },
         "action": [
           {
-            "action": "",
+            "action": "exp",
             "parameter": {
+              "add": "10"
             }
           }
         ]

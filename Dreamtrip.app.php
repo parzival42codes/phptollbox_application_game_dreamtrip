@@ -19,6 +19,8 @@ class ApplicationDreamtrip_app extends Application_abstract
 
     public function setContent(): string
     {
+        $container = Container::DIC();
+
         $this->pageData();
 
         /** @var ContainerExtensionTemplateLoad_cache_template $templateCache */
@@ -29,8 +31,14 @@ class ApplicationDreamtrip_app extends Application_abstract
         /** @var ContainerFactoryUser $user */
         $user = Container::getInstance('ContainerFactoryUser');
 
-        /** @var ApplicationDreamtrip_crud_user $crudUser */
-        $crudUser = Container::get('ApplicationDreamtrip_crud_user');
+        $user = $container->getDIC('/User');
+
+        d($user);
+        eol();
+
+            /** @var ApplicationDreamtrip_crud_user $crudUser */
+        $crudUser
+            = Container::get('ApplicationDreamtrip_crud_user');
         $crudUser->setCrudUser($user->getUserId());
         $crudUser->findById();
 

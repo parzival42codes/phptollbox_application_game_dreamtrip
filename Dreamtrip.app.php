@@ -14,8 +14,7 @@
  */
 class ApplicationDreamtrip_app extends Application_abstract
 {
-
-    protected array $jsonData = [];
+    private array $jsonData = [];
 
     public function setContent(): string
     {
@@ -29,14 +28,12 @@ class ApplicationDreamtrip_app extends Application_abstract
                                         'default,choice.container,choice.action.container,choice.action.item');
 
         /** @var ContainerFactoryUser $user */
-        $user = Container::getInstance('ContainerFactoryUser');
-
         $user = $container->getDIC('/User');
 
-        d($user);
-        eol();
+//        d($user);
+//        eol();
 
-            /** @var ApplicationDreamtrip_crud_user $crudUser */
+        /** @var ApplicationDreamtrip_crud_user $crudUser */
         $crudUser
             = Container::get('ApplicationDreamtrip_crud_user');
         $crudUser->setCrudUser($user->getUserId());
@@ -68,7 +65,7 @@ class ApplicationDreamtrip_app extends Application_abstract
         return $template->get();
     }
 
-    public function pageData(): void
+    private function pageData(): void
     {
         /** @var ContainerIndexPage $page */
         $page = Container::getInstance('ContainerIndexPage');

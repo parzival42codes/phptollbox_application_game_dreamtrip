@@ -121,8 +121,7 @@ class ApplicationDreamtrip_app extends Application_abstract
                                              $templateContent);
             $templateActionContainer->parse();
 
-            $message = ContainerFactoryLanguage::getLanguageText((string)Config::get('/environment/language'),
-                                                                 $choiceItem['language']);
+            $message = ContainerFactoryLanguage::getLanguageText($choiceItem['language']);
 
             $tableTcs[] = [
                 'path'     => $choiceKey,

@@ -53,7 +53,7 @@ class ApplicationDreamtrip_app extends Application_abstract
 
         /** @var ContainerExtensionTemplate $template */
         $template = Container::get('ContainerExtensionTemplate');
-        $template->set($templateCache->getCacheContent()['default']);
+        $template->set($templateCache->get()['default']);
 
 //        d($this->getChoices($templateCache));
 //        eol();
@@ -92,7 +92,7 @@ class ApplicationDreamtrip_app extends Application_abstract
 
         /** @var ContainerExtensionTemplate $template */
         $template = Container::get('ContainerExtensionTemplate');
-        $template->set($templateCache->getCacheContent()['choice.container']);
+        $template->set($templateCache->get()['choice.container']);
 
         $tableTcs = [];
 
@@ -105,7 +105,7 @@ class ApplicationDreamtrip_app extends Application_abstract
             foreach ($choiceItem['action'] as $action) {
                 /** @var ContainerExtensionTemplate $templateActionItem */
                 $templateActionItem = Container::get('ContainerExtensionTemplate');
-                $templateActionItem->set($templateCache->getCacheContent()['choice.action.item']);
+                $templateActionItem->set($templateCache->get()['choice.action.item']);
                 $templateActionItem->assign('item',
                                             $action['action'] . ' - ' . implode(',',
                                                                                 $action['parameter']));
@@ -116,7 +116,7 @@ class ApplicationDreamtrip_app extends Application_abstract
 
             /** @var ContainerExtensionTemplate $templateActionContainer */
             $templateActionContainer = Container::get('ContainerExtensionTemplate');
-            $templateActionContainer->set($templateCache->getCacheContent()['choice.action.container']);
+            $templateActionContainer->set($templateCache->get()['choice.action.container']);
             $templateActionContainer->assign('content',
                                              $templateContent);
             $templateActionContainer->parse();
